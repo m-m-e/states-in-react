@@ -5,8 +5,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: 'Ada',
-      lastName: 'Lovelace',
+      firstName: '',
+      lastName: '',
       birthDate: {
         day: 10,
         month: 'December',
@@ -14,6 +14,7 @@ class App extends React.Component {
       }
     }
     this.updateDetails = this.updateDetails.bind(this);
+    this.updateBirthdayDetails = this.updateBirthdayDetails.bind(this);
     // this.updateFirstName = this.updateFirstName.bind(this);
     // this.updateLastName = this.updateLastName.bind(this);
     // this.updateDateDay = this.updateDateDay.bind(this);
@@ -25,8 +26,43 @@ class App extends React.Component {
     const newValue = {};
     newValue[key] = currentField.value;
 
-    console.log(newValue);
     this.setState(newValue);
+  }
+
+  updateBirthdayDetails(event) {
+    const currentBField = event.currentTarget;
+    const bKey = currentBField.id;
+    const newBValue = currentBField.value;
+
+    console.log(bKey, newBValue);
+
+    /*
+    Siempre que modifiquemos el estado
+    dependiendo de un valor anterior usaremos
+    esta fórmula.
+
+    Aquí necesitamos crear un nuevo objeto
+    birthDate que tenga, lo que tenía antes
+    pero con una de las claves cambiadas
+    y necesitamos hacer esto porque alguien podría
+    estar cambiando otra a la vez y pisaríamos los estados
+    */
+    this.setState( (prevState) => {
+
+      const newBirthDate = {...prevState.birthDate};
+      newBirthDate[bKey] = newBValue;
+
+      /*
+        Esto lo puedes escribir tb así:
+        
+        const newBirthday = {...prevState.birthDate, [bKey]: newBValue};
+        
+      */
+
+      return {birthDate: newBirthDate};
+      
+    } );
+    
   }
 
   render() {
@@ -42,7 +78,7 @@ class App extends React.Component {
           <input id="lastName" className="input-box" placeholder={lastName} onChange={this.updateDetails}/>
 
           <label htmlFor="day" className="input-label">Date of birth - Day</label>
-          <input id="day" className="input-box" placeholder={birthDate.day} onChange={this.updateDetails}/>
+          <input id="day" className="input-box" placeholder={birthDate.day} onChange={this.updateBirthdayDetails}/>
 
           <label htmlFor="month" className="input-label">Date of birth - Month</label>
           <input id="month" className="input-box" placeholder={birthDate.month} onChange={this.updateDetails} />
@@ -53,7 +89,7 @@ class App extends React.Component {
 
         <ul className="data-list">
           <li className="list-item">
-            Your name is {firstName} {lastName}
+            Your name is {firstName !== '' ? firstName : 'JANE'} {lastName !== '' ? lastName : 'DOE'}
           </li>
           <li className="list-item">
             Your birthday is {birthDate.day} {birthDate.month} {birthDate.year}
