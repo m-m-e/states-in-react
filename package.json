@@ -1,5 +1,6 @@
 {
   "name": "3.7-ejercicios",
+  "homepage": "./",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

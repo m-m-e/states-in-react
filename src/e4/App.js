@@ -6,7 +6,7 @@ class SheepCounter extends React.Component {
   constructor(props) {
     super(props);
 
-    this.sheepUrl = 'http://www.clker.com/cliparts/e/4/8/7/13280460782141411990Cartoon%20Sheep.svg.hi.png';
+    this.sheepUrl = 'https://www.clker.com/cliparts/e/4/8/7/13280460782141411990Cartoon%20Sheep.svg.hi.png';
     this.state = {
       counter: 0,
     }
