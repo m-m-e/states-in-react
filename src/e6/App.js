@@ -5,30 +5,43 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: 'Ada',
-      lastName: 'Lovelace',
+      firstName: '',
+      lastName: '',
       birthDate: {
-        day: 10,
-        month: 'December',
-        year: 1815
+        day: '',
+        month: '',
+        year: ''
       }
     }
     this.updateDetails = this.updateDetails.bind(this);
-    // this.updateFirstName = this.updateFirstName.bind(this);
-    // this.updateLastName = this.updateLastName.bind(this);
-    // this.updateDateDay = this.updateDateDay.bind(this);
+    this.updateBirthday = this.updateBirthday.bind(this);
   }
 
   updateDetails(event) {
     const currentField = event.currentTarget;
     const key = currentField.id;
+    const value = currentField.value;
     const newValue = {};
-    newValue[key] = currentField.value;
+    newValue[key] = value;
 
     console.log(newValue);
     this.setState(newValue);
   }
 
+  updateBirthday(event) {
+    const currentField = event.currentTarget;
+    const key = currentField.id;
+    const newValue = currentField.value;
+
+    this.setState( (prevState) => {
+
+      const newBirthDate = {...prevState.birthDate};
+      newBirthDate[key] = newValue;
+
+      return {birthDate: newBirthDate};
+
+    } );
+  }
   render() {
     const {firstName, lastName, birthDate} = this.state;
 
@@ -36,27 +49,27 @@ class App extends React.Component {
       <div className="container">
         <form className="form">
           <label htmlFor="firstName" className="input-label">First name</label>
-          <input id="firstName" className="input-box" placeholder={firstName} onChange={this.updateDetails}/>
+          <input id="firstName" className="input-box" placeholder="Ada" onChange={this.updateDetails}/>
 
           <label htmlFor="lastName" className="input-label">Last name</label>
-          <input id="lastName" className="input-box" placeholder={lastName} onChange={this.updateDetails}/>
+          <input id="lastName" className="input-box" placeholder="Lovelace" onChange={this.updateDetails}/>
 
           <label htmlFor="day" className="input-label">Date of birth - Day</label>
-          <input id="day" className="input-box" placeholder={birthDate.day} onChange={this.updateDetails}/>
+          <input id="day" className="input-box" placeholder="10" onChange={this.updateBirthday}/>
 
           <label htmlFor="month" className="input-label">Date of birth - Month</label>
-          <input id="month" className="input-box" placeholder={birthDate.month} onChange={this.updateDetails} />
+          <input id="month" className="input-box" placeholder="December" onChange={this.updateBirthday} />
 
           <label htmlFor="year" className="input-label">Date of birth - Year</label>
-          <input id="year" className="input-box" placeholder={birthDate.year} onChange={this.updateDetails}/>
+          <input id="year" className="input-box" placeholder="1815" onChange={this.updateBirthday}/>
         </form>
 
         <ul className="data-list">
           <li className="list-item">
-            Your name is {firstName} {lastName}
+            Your name is {firstName !== '' ? firstName : 'Ada'} {lastName!== '' ? lastName : 'Lovelace'}
           </li>
           <li className="list-item">
-            Your birthday is {birthDate.day} {birthDate.month} {birthDate.year}
+            Your birthday is {birthDate.day !== '' ? birthDate.day : 10} {birthDate.month !== '' ? birthDate.month : 'December'} {birthDate.year !== '' ? birthDate.year : 1815}
           </li>
         </ul>
       </div>
@@ -65,28 +78,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-  // updateFirstName(event) {
-  //   const currentField = event.currentTarget;
-  //   const input = currentField.value;
-  //   this.setState((prevState, props) => ({
-  //     firstName: prevState.firstName !== input ? input : prevState,      
-  //   }));
-  // }
-
-  // updateLastName(event) {
-  //   const currentField = event.currentTarget;
-  //   const input = currentField.value;
-  //   this.setState((prevState, props) => ({
-  //     lastName: prevState.lastName !== input ? input : prevState,
-  //   }));
-  // }
-
-  // updateDateDay(event) {
-  //   const currentField = event.currentTarget;
-  //   const input = currentField.value;
-  //   const day = this.state.birthday.day;
-  //   this.setState((prevState, props) => ({
-  //     day: prevState.day !== input ? input : prevState,
-  //   }));
